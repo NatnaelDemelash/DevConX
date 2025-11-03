@@ -1,6 +1,5 @@
 'use client';
 
-// To maintain type safety, we define the props for the mock components.
 interface ButtonProps {
   children: React.ReactNode;
   className?: string;
@@ -13,25 +12,9 @@ interface CardComponentProps {
   className?: string;
 }
 
-// Mock Icon components (using inline SVGs for simplicity and single-file mandate)
-const ZapIcon = () => (
-  <svg
-    className="w-5 h-5 mr-2"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M13 10V3L4 14h7v7l9-11h-7z"
-    />
-  </svg>
-);
-
+// --- Mock Icon components (using inline SVGs) ---
 const PlusIcon = () => (
+  // Icons now inherit dark text color by default
   <svg
     className="w-5 h-5 mr-2"
     fill="none"
@@ -65,12 +48,47 @@ const SearchIcon = () => (
   </svg>
 );
 
-// --- Mock Components for Shadcn/ui look and feel ---
+const UserIcon = () => (
+  <svg
+    className="w-5 h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+    />
+  </svg>
+);
+
+const ZapIcon = () => (
+  // Placeholder icon now uses a simple gray color
+  <svg
+    className="w-8 h-8 mx-auto text-gray-500 mb-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M13 10V3L4 14h7v7l9-11h-7z"
+    />
+  </svg>
+);
+
+// --- Mock Components for Shadcn/ui look and feel (White/Black Styling) ---
 const Button = ({ children, className = '', icon, ...props }: ButtonProps) => (
   <button
     className={`
       flex items-center justify-center px-6 py-3 rounded-xl font-medium transition duration-300 ease-in-out
-      focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-offset-gray-950
+      focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-offset-white
       transform hover:scale-[1.02] active:scale-[0.98]
       ${className}
     `}
@@ -84,7 +102,7 @@ const Button = ({ children, className = '', icon, ...props }: ButtonProps) => (
 const Card = ({ children, className = '' }: CardComponentProps) => (
   <div
     className={`
-      rounded-2xl backdrop-blur-md bg-gray-900/60 border border-gray-800 shadow-2xl
+      rounded-2xl bg-white border border-gray-200 shadow-xl
       ${className}
     `}
   >
@@ -96,6 +114,55 @@ const CardContent = ({ children, className = '' }: CardComponentProps) => (
   <div className={`p-6 sm:p-10 ${className}`}>{children}</div>
 );
 
+// --- Navigation Bar Component ---
+const NavBar = () => {
+  const handleNavClick = (name: string) => console.log(`Navigating to ${name}`);
+
+  return (
+    <header className="z-20 w-full sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between p-4 sm:p-6">
+        {/* Logo (Black) */}
+        <a
+          href="#"
+          className="text-3xl font-extrabold text-gray-900 tracking-wider"
+        >
+          DevConX
+        </a>
+
+        {/* Desktop Links and Button (aligned right) */}
+        <div className="flex items-center space-x-6">
+          {/* Links */}
+          <div className="hidden md:flex items-center space-x-8 text-lg font-medium">
+            <a
+              href="#"
+              onClick={() => handleNavClick('Browse Events')}
+              className="text-gray-600 hover:text-gray-900 transition duration-200"
+            >
+              Browse Events
+            </a>
+            <a
+              href="#"
+              onClick={() => handleNavClick('For Organizers')}
+              className="text-gray-600 hover:text-gray-900 transition duration-200"
+            >
+              For Organizers
+            </a>
+          </div>
+
+          {/* Sign In Button (Solid Black) */}
+          <Button
+            className="bg-gray-900 text-white text-sm hover:bg-gray-800 focus:ring-gray-400 md:py-2 md:px-5 px-4 py-2"
+            onClick={() => handleNavClick('Sign In')}
+            icon={<UserIcon />}
+          >
+            Sign In
+          </Button>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
 // --- Main Application Component ---
 export default function App() {
   const handleAction = (action: string) => {
@@ -104,101 +171,78 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center font-sans p-4 sm:p-8 overflow-hidden">
-      {/* Background Grid and Light Effect */}
-      <div
-        className="absolute inset-0 z-0 opacity-10"
-        style={{
-          backgroundImage:
-            'linear-gradient(to right, #1f2937 1px, transparent 1px), linear-gradient(to bottom, #1f2937 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }}
-      ></div>
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-600/30 rounded-full blur-[150px] animate-blob z-0"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/30 rounded-full blur-[150px] animate-blob animation-delay-4000 z-0"></div>
+    // Updated to light background and dark text
+    <div className="relative min-h-screen bg-gray-50 text-gray-900 flex flex-col items-center font-sans overflow-hidden">
+      <NavBar /> {/* Integrated Navbar */}
+      {/* Background Grid (Removed completely for simple white background) */}
+      {/* Main Content Area */}
+      <main className="max-w-7xl w-full mx-auto p-4 sm:p-8 flex-grow flex items-center justify-center relative z-10">
+        <Card className="max-w-6xl w-full my-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-8 sm:p-12">
+          {/* Left Side: Text and CTAs */}
+          <div className="flex flex-col justify-center text-center lg:text-left">
+            <p className="text-lg font-semibold text-gray-500 uppercase tracking-widest mb-2">
+              DevConX Platform
+            </p>
 
-      {/* Hero Content Card */}
-      <Card className="z-10 max-w-6xl w-full my-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-8 sm:p-12">
-        {/* Left Side: Text and CTAs */}
-        <div className="flex flex-col justify-center text-center lg:text-left">
-          <p className="text-lg font-semibold text-blue-400 uppercase tracking-widest mb-2">
-            DevConX
-          </p>
+            <h1 className="text-5xl sm:text-7xl font-extrabold mb-6 leading-tight">
+              The Central Hub for{' '}
+              <span className="text-gray-800">Developer Events</span>
+            </h1>
 
-          <h1 className="text-5xl sm:text-7xl font-extrabold mb-6 leading-tight">
-            The Central Hub for{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-              Developer Events
-            </span>
-          </h1>
+            <p className="text-xl text-gray-600 mb-10 max-w-xl lg:max-w-none mx-auto lg:mx-0">
+              Browse, create, and manage your tech conferences, meetups, and
+              workshops with unparalleled ease.
+            </p>
 
-          <p className="text-xl text-gray-400 mb-10 max-w-xl lg:max-w-none mx-auto lg:mx-0">
-            Browse, create, and manage your tech conferences, meetups, and
-            workshops with unparalleled ease.
-          </p>
+            {/* Core Action Buttons */}
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              <Button
+                // Primary action button: Solid Black
+                className="bg-gray-900 text-white hover:bg-gray-700 focus:ring-gray-400/50"
+                onClick={() => handleAction('Browse Events')}
+                icon={<SearchIcon />}
+              >
+                Browse Events
+              </Button>
 
-          {/* Core Action Buttons */}
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button
-              className="bg-blue-600 text-white hover:bg-blue-500 focus:ring-blue-500/50"
-              onClick={() => handleAction('Browse Events')}
-              icon={<SearchIcon />}
-            >
-              Browse Events
-            </Button>
-
-            <Button
-              className="bg-transparent text-cyan-400 border border-cyan-500 hover:bg-cyan-500/10 focus:ring-cyan-500/50"
-              onClick={() => handleAction('Create New Event')}
-              icon={<PlusIcon />}
-            >
-              Create New Event
-            </Button>
-          </div>
-        </div>
-
-        {/* Right Side: Feature Placeholder */}
-        <div className="flex items-center justify-center p-4 lg:p-0">
-          <Card className="w-full h-80 bg-gray-900/50 flex items-center justify-center border-dashed border-gray-700/50">
-            <div className="text-center text-gray-500 p-8">
-              <ZapIcon />
-              <h3 className="text-xl font-bold text-gray-400 mb-2">
-                Event Dashboard Preview
-              </h3>
-              <p className="text-sm">
-                Dynamic view of your scheduled events and registrations.
-              </p>
+              <Button
+                // Secondary action button: Outlined Light
+                className="bg-transparent text-gray-800 border-2 border-gray-300 hover:bg-gray-50 focus:ring-gray-400/50"
+                onClick={() => handleAction('Create New Event')}
+                icon={<PlusIcon />}
+              >
+                Create New Event
+              </Button>
             </div>
-          </Card>
-        </div>
-      </Card>
+          </div>
 
-      {/* Management Link (Subtle) */}
-      <footer className="z-10 mt-6 text-sm text-gray-500">
+          {/* Right Side: Feature Placeholder */}
+          <div className="flex items-center justify-center p-4 lg:p-0">
+            <Card className="w-full h-80 bg-gray-100 flex items-center justify-center border-dashed border-gray-300">
+              <div className="text-center text-gray-600 p-8">
+                <ZapIcon />
+                <h3 className="text-xl font-bold text-gray-700 mb-2">
+                  Event Dashboard Preview
+                </h3>
+                <p className="text-sm">
+                  Dynamic view of your scheduled events and registrations.
+                </p>
+              </div>
+            </Card>
+          </div>
+        </Card>
+      </main>
+      {/* Footer / Management Link */}
+      <footer className="z-10 mt-6 mb-8 text-sm text-gray-500">
         Already managing an event?
         <a
           href="#"
           onClick={() => handleAction('Dashboard')}
-          className="ml-1 text-blue-400 hover:text-blue-300 transition"
+          className="ml-1 text-gray-700 hover:text-gray-900 transition"
         >
           Go to Dashboard
         </a>
       </footer>
-
-      {/* CSS for custom animations */}
-      <style>{`
-        @keyframes blob {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-        .animate-blob {
-          animation: blob 15s infinite ease-in-out;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
     </div>
   );
 }
