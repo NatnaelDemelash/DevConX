@@ -176,7 +176,7 @@ export default function App() {
       <NavBar /> {/* Integrated Navbar */}
       {/* Background Grid (Removed completely for simple white background) */}
       {/* Main Content Area */}
-      <main className="max-w-7xl w-full mx-auto p-4 sm:p-8 flex-grow flex items-center justify-center relative z-10">
+      <main className="max-w-7xl w-full mx-auto p-4 sm:p-8 grow flex items-center justify-center relative z-10">
         <Card className="max-w-6xl w-full my-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-8 sm:p-12">
           {/* Left Side: Text and CTAs */}
           <div className="flex flex-col justify-center text-center lg:text-left">
