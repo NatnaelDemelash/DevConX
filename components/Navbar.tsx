@@ -1,3 +1,4 @@
+"use client";
 // --- Navbar ---
 const NavBar = () => {
   const handleNavClick = (name: string) => console.log(`Navigating to ${name}`);
